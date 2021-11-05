@@ -1,1 +1,1 @@
-# Proyecto de JSF para FPDUAL 2020/2021
+# Proyecto base de JSF/Primefaces para FPDUAL
