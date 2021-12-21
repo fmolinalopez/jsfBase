@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+  <h:head>
+  	<title>Primefaces fpdual</title>
+  </h:head>
+ 
+  <h:body>
+  	<h:form>
+  		<p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+  	
+	    <p:outputLabel for="nombre" value="Nombre:"/><br/> 	
+		<p:inputText id="nombre" value="#{ejercicio1.nombre}">
+			<p:ajax event="keyup" update="apellido1"/>
+		</p:inputText><br/><br/>
+		
+		<p:outputLabel for="apellido1" value="Apellido 1:"/><br/> 	
+		<p:inputText id="apellido1" value="#{ejercicio1.apellido1}" disabled="#{ejercicio1.nombre == '' || ejercicio1.nombre == null}">
+			<p:ajax event="keyup" update="apellido2"/>
+		</p:inputText><br/><br/>
+	
+		<p:outputLabel for="apellido2" value="Apellido 2:"/><br/> 	
+		<p:inputText id="apellido2" value="#{ejercicio1.apellido2}" disabled="#{ejercicio1.apellido1 == '' || ejercicio1.apellido1 == null}">
+			<p:ajax event="keyup" update="edad"/>
+		</p:inputText><br/><br/>
+		
+		<p:outputLabel for="edad" value="Edad:"/><br/>
+		<p:inputNumber id="edad" value="#{ejercicio1.edad}" disabled="#{ejercicio1.apellido2 == '' || ejercicio1.apellido2 == null}" maxValue="999" decimalPlaces="0">
+			<p:ajax event="keyup" update="panelFirma"/>
+		</p:inputNumber><br/><br/>
+		
+		<p:panel id="panelFirma" visible="#{ejercicio1.edad > 0}">
+			<p:signature id="firma" style="width:400px;height:200px" value="#{ejercicio1.firma}"/>
+		</p:panel>
+		
+		<p:commandButton id="validar" value="Validar" actionListener="#{ejercicio1.validar}" />
+  	</h:form>
+  </h:body>
+</html>

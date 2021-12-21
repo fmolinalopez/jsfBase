@@ -13,11 +13,35 @@
   	<h2>Componentes</h2>
   	<h:form>
 	  	<h3>Input Text</h3>
-	<!--   	<h3>Input Text Ajax</h3> -->
+	  	<p:inputText id="inputText" value="#{formulario.campoTexto}"/>
+	  	<h3>Input Text Ajax</h3>
+	  	<p:inputText id="inputTextAjax" value="#{formulario.campoTextoAjax}">
+            <p:ajax event="keyup" update="textoAjax" process="@this"/>
+        </p:inputText>
+        <h:outputText id="textoAjax" value="#{formulario.campoTextoAjax}"/>
 	  	<h3>Select One</h3>
-	<!--   	<h3>Datatable Ajax</h3> -->
+	  	<p:selectOneMenu id="selectOneMenu" value="#{formulario.selectOne}">
+              <f:selectItem itemLabel="Select One" itemValue=""/>
+              <f:selectItem itemLabel="Option1" itemValue="Option1"/>
+              <f:selectItem itemLabel="Option2" itemValue="Option2"/>
+              <f:selectItem itemLabel="Option3" itemValue="Option3"/>
+        </p:selectOneMenu>
+        <p:commandButton id="add" update="datatableAjax" value="Añadir" actionListener="#{formulario.anadirOpcionALista}"/>
+          
+	  	<h3>Datatable Ajax</h3>
+	  	<p:dataTable id="datatableAjax" var="opcion" value="#{formulario.opciones}">
+            <p:column headerText="Opcion">
+                <h:outputText value="#{opcion}" />
+            </p:column>
+        </p:dataTable>
 	  	<h3>Datatable</h3>
+	  	<p:dataTable id="datatable" var="dato" value="#{formulario.datos}">
+            <p:column headerText="Dato">
+                <h:outputText value="#{dato}" />
+            </p:column>
+        </p:dataTable>
 	  	<h3>Command Button</h3>
+	  	<p:commandButton id="submitButton" value="Submit" actionListener="#{formulario.validar}"/>
   	</h:form>
   </h:body>
 </html>
