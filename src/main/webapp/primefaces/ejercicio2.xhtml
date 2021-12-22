@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+  <h:head>
+  	<title>Primefaces fpdual</title>
+  </h:head>
+ 
+  <h:body>
+  	<h:form>
+  		<p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+        
+        <p:selectOneMenu id="selectOneComponentes" value="#{ejercicio2.componenteSeleccionado}">
+        	<f:selectItem itemLabel="Seleccionar componente" itemValue=""/>
+        	<f:selectItems value="#{ejercicio2.componentes}"/>
+        	<p:ajax event="change" update="panelComponentes"/>
+        </p:selectOneMenu>
+        
+		<p:panel id="panelComponentes">
+		
+			<p:selectOneMenu id="selectOneMenu" value="#{ejercicio2.opcionSeleccionada}" rendered="#{ejercicio2.cargarDataTable()}">
+	             <f:selectItem itemLabel="Select One" itemValue=""/>
+	             <f:selectItem itemLabel="Option1" itemValue="Option1"/>
+	             <f:selectItem itemLabel="Option2" itemValue="Option2"/>
+	             <f:selectItem itemLabel="Option3" itemValue="Option3"/>
+	        </p:selectOneMenu><br/>
+	        <p:commandButton id="add" 
+	        	update="datatable"
+	        	value="Añadir" 
+	        	actionListener="#{ejercicio2.anadirOpcionALista}"
+	        	rendered="#{ejercicio2.cargarDataTable()}"/><br/>
+			<p:dataTable id="datatable" var="opcion" value="#{ejercicio2.opciones}" rendered="#{ejercicio2.cargarDataTable()}">
+	            <p:column headerText="Opcion">
+	                <h:outputText value="#{opcion}" />
+	            </p:column>
+	        </p:dataTable>
+	        
+	        <p:knob id="knob" value="#{ejercicio2.knobValue}" min="0" max="150" rendered="#{ejercicio2.cargarKnob()}"/>
+	        
+	        <p:selectOneRadio id="radio" value="#{ejercicio2.radioValue}" rendered="#{ejercicio2.cargarRadioButton()}">
+	            <f:selectItem itemLabel="Option1" itemValue="Option1"/>
+	            <f:selectItem itemLabel="Option2" itemValue="Option2"/>
+	            <f:selectItem itemLabel="Option3" itemValue="Option3"/>
+	        </p:selectOneRadio>
+	        
+	        <p:datePicker id="datePicker" value="#{ejercicio2.datepickerValue}" rendered="#{ejercicio2.cargarDatePicker()}"/>
+		</p:panel>        
+  	</h:form>
+  </h:body>
+</html>
