@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+  <h:head>
+  	<title>Primefaces fpdual</title>
+  </h:head>
+ 
+  <h:body>
+  	<h:form id="formPrincpial">
+  		<p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+        
+        <h1>Añadir asistente</h1>
+        <p:panelGrid id="panelAsistentes" columns="2" layout="grid" style="width: 80%">
+			<p:column>
+				<p:outputLabel for="nombre" value="Nombre: "/>
+				<p:inputText id="nombre" placeholder="Nombre" value="#{ejercicio5Vista.nombre}"/>
+			</p:column>        	
+
+			<p:column>
+				<p:outputLabel for="nombre" value="Apellido1: "/>
+            	<p:inputText placeholder="Apellido1" value="#{ejercicio5Vista.apellido1}"/>
+			</p:column>
+
+			<p:column>
+				<p:outputLabel for="nombre" value="Apellido2: "/>
+            	<p:inputText placeholder="Apellido2" value="#{ejercicio5Vista.apellido2}"/>
+			</p:column>
+        	
+			<p:column>
+				<p:outputLabel for="nombre" value="Dni: "/>
+	            <p:inputText placeholder="Dni" value="#{ejercicio5Vista.dni}"/>
+	        </p:column>
+        </p:panelGrid>
+        <p:commandButton id="addAsistente" 
+        	value="Añadir asistente" 
+        	actionListener="#{ejercicio5Vista.addAsistente}" 
+        	update="panelTablaAsistentes panelAsistentes autocompletadoAsistentes"/>
+        <p:commandButton id="addAsistentes" 
+        	value="Añadir lita de asistentes" 
+        	actionListener="#{ejercicio5Vista.addAsistentes}" 
+        	update="panelTablaAsistentes panelAsistentes autocompletadoAsistentes"/>
+        <p:spacer width="100%" height="20px"/>
+       
+        <p:panelGrid id="panelTablaAsistentes" columns="3" style="width: 80%">
+        	<p:column rowspan="2">
+		        <p:dataTable id="tablaAsistentes" var="asistente" value="#{ejercicio5Vista.asistentes}" 
+		        		selectionMode="single" selection="#{ejercicio5Vista.asistenteSeleccionado}" 
+		        		rowKey="#{asistente.id}" rendered="#{ejercicio5Vista.mostrarTablaAsistentes()}">
+		            <p:column headerText="Nombre">
+		                <h:outputText value="#{asistente.nombre}" />
+		            </p:column>
+		
+		            <p:column headerText="Apellido1">
+		                <h:outputText value="#{asistente.apellido1}" />
+		            </p:column>
+		
+		            <p:column headerText="Apellido2">
+		                <h:outputText value="#{asistente.apellido2}" />
+		            </p:column>
+		
+		            <p:column headerText="Dni">
+		                <h:outputText value="#{asistente.dni}" />
+		            </p:column>
+		            <f:facet name="footer">
+		                <p:commandButton process="tablaAsistentes" value="Editar" onclick="PF('modalEditarAsistenteWV').show();" update="formEdicion:panelEdicion"/>
+		            </f:facet>
+		        </p:dataTable>
+        	</p:column>
+        	
+        	<p:column>
+        		<p:commandButton value="Primero" actionListener="#{ejercicio5Vista.primero}" update="tablaAsistentes" rendered="#{ejercicio5Vista.mostrarTablaAsistentes()}"/>
+        		<p:spacer width="100%" height="15px"/>
+        		<p:commandButton value="Subir" actionListener="#{ejercicio5Vista.subir}" update="tablaAsistentes" rendered="#{ejercicio5Vista.mostrarTablaAsistentes()}"/>
+        		<p:spacer width="100%" height="15px"/>
+        		<p:commandButton value="Bajar" actionListener="#{ejercicio5Vista.bajar}" update="tablaAsistentes" rendered="#{ejercicio5Vista.mostrarTablaAsistentes()}"/>
+        		<p:spacer width="100%" height="15px"/>
+        		<p:commandButton value="Ultimo" actionListener="#{ejercicio5Vista.ultimo}" update="tablaAsistentes" rendered="#{ejercicio5Vista.mostrarTablaAsistentes()}"/>
+        	</p:column>
+        </p:panelGrid>
+        
+        <p:spacer width="100%" height="15px"/>
+        <p:outputLabel for="autocompletadoAsistentes" value="Asistentes a notificar"/>
+        <p:autoComplete id="autocompletadoAsistentes" multiple="true" value="#{ejercicio5Vista.asistentesSeleccionados}"
+                        completeMethod="#{ejercicio5Vista.autocompletarAsistentes}"
+                        var="asistente" itemLabel="#{asistente.nombre} #{asistente.apellido1} #{asistente.apellido2} - #{asistente.dni}" itemValue="#{asistente.nombre} #{asistente.apellido1} #{asistente.apellido2} - #{asistente.dni}"
+                        forceSelection="true" scrollHeight="250">
+                        <p:ajax event="change" update="btnNotificar"/>
+        </p:autoComplete>
+        <p:spacer width="100%" height="15px"/>
+    	<p:commandButton id="btnNotificar" value="Notificar" onclick="PF('modalPreguntaNotificarWV').show()" update="panelPreguntaNotificar" disabled="#{ejercicio5Vista.botonNotificarHabilitado()}"/>
+  	</h:form>
+  	
+  	<p:dialog header="Editar Asistente" modal="true" widgetVar="modalEditarAsistenteWV" minHeight="40" width="350" showEffect="fade">
+		<h:form id="formEdicion">
+	  		<p:panel id="panelEdicion">
+			    <p:outputLabel for="edicionNombre" value="Nombre: "/><br/>
+				<p:inputText id="edicionNombre" placeholder="Nombre" value="#{ejercicio5Vista.asistenteSeleccionado.nombre}"/><br/>
+				<p:outputLabel for="edicionApellido1" value="Apellido1: "/><br/>
+				<p:inputText id="edicionApellido1" placeholder="Nombre" value="#{ejercicio5Vista.asistenteSeleccionado.apellido1}"/><br/>
+				<p:outputLabel for="edicionApellido2" value="Apellido2: "/><br/>
+				<p:inputText id="edicionApellido2" placeholder="Nombre" value="#{ejercicio5Vista.asistenteSeleccionado.apellido2}"/><br/>
+				<p:outputLabel for="edicionDni" value="Dni: "/><br/>
+				<p:inputText id="edicionDni" placeholder="Dni" value="#{ejercicio5Vista.asistenteSeleccionado.dni}"/><br/>
+	  		</p:panel>
+	  		<p:commandButton id="editarAsistente" value="Editar" actionListener="#{ejercicio5Vista.editarAsistente}" update="formPrincpial:tablaAsistentes"/>
+		</h:form>
+	</p:dialog>
+	
+  	<p:dialog header="¿Notificar?" modal="true" widgetVar="modalPreguntaNotificarWV" minHeight="40" width="350" showEffect="fade">
+	  		<p:panel id="panelPreguntaNotificar">
+				<h:outputText value="#{ejercicio5Vista.preguntaNotificar}"/>
+	  		</p:panel>
+	  		
+	  		<p:commandButton id="siNotificar" value="SI" actionListener="#{ejercicio5Vista.mostrarModalNotificar}"/>
+	  		<p:commandButton id="noNotificar" value="NO" onclick="PF('modalEditarAsistenteWV').hide()"/>
+	</p:dialog>
+	
+  	<p:dialog header="Notificar" modal="true" widgetVar="modalNotificarWV" width="350px" height="350px" showEffect="fade">
+  		<h:form>
+	  		<p:outputLabel for="direccion" value="Direccion: "/><br/>
+			<p:inputText id="direccion" placeholder="Direccion" value="#{ejercicio5Vista.direccion}"/><br/>
+			<p:outputLabel for="fecha" value="Fecha de notificacion: "/><br/>
+			<p:datePicker id="fecha" value="#{ejercicio5Vista.fechaNotificacion}" />
+			<p:spacer width="100%" height="15px"/>
+			<p:commandButton id="notificar" value="Notiicar" actionListener="#{ejercicio5Vista.notificar}"/>
+  		</h:form>
+  	</p:dialog>
+  </h:body>
+</html>
