@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+  	<title>Ejercicio 1</title>
+  </h:head>
+ 
+  <h:body>
+  	<h1>Ejercicio 1</h1>
+  	<h:form>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>  	
+  	
+	  	<p:outputLabel for="nombre" value="Nombre"/>
+	  	
+	  	<p:spacer height="2px" width="100%"/>
+	  	<p:inputText id="nombre" value="#{ejercicio1.nombre}">
+	  		<p:ajax event="keyup" update="apellido1"/>
+	  	</p:inputText>
+	  	
+	  	<p:spacer height="10px" width="100%"/>
+	  	<p:outputLabel for="apellido1" value="Apellido 1"/>
+	  	
+	  	<p:spacer height="2px" width="100%"/>
+	  	<p:inputText id="apellido1" value="#{ejercicio1.apellido1}" disabled="#{ejercicio1.nombre == null or ejercicio1.nombre == ''}">
+	  		<p:ajax event="keyup" update="apellido2"/>
+	  	</p:inputText>
+	  	
+	  	<p:spacer height="10px" width="100%"/>
+	  	<p:outputLabel for="apellido2" value="Apellido 2"/>
+	  	<p:spacer height="2px" width="100%"/>
+	  	<p:inputText id="apellido2" value="#{ejercicio1.apellido2}" disabled="#{ejercicio1.apellido1 == null or ejercicio1.apellido1 == ''}">
+	  		<p:ajax event="keyup" update="edad"/>
+	  	</p:inputText>
+	  	
+	  	
+	  	<p:spacer height="10px" width="100%"/>
+	  	<p:outputLabel for="edad" value="Edad"/>
+	  	<p:spacer height="2px" width="100%"/>
+	  	<p:inputNumber id="edad" value="#{ejercicio1.edad}" minValue="0" decimalPlaces="0" disabled="#{ejercicio1.apellido2 == null or ejercicio1.apellido2 == ''}">
+	  		<p:ajax event="keyup" update="panelFirma"/>
+	  	</p:inputNumber>
+	  	
+	  	<p:panel id="panelFirma" visible="#{ejercicio1.edad != null and ejercicio1.edad gt 0}">
+		  	<p:spacer height="10px" width="100%"/>
+	  		<p:signature style="width:400px;height:200px" widgetVar="sig" value="#{ejercicio1.firma}"
+	  			guideline="true"/>
+	  	</p:panel>
+		
+		<p:spacer height="10px" width="100%"/>
+		<p:commandButton value="validar" actionListener="#{ejercicio1.validarFormulario}"/>
+  	</h:form>
+  </h:body>
+</html>
