@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+  	<title>Ejercicio 4</title>
+  	</h:head>
+	
+  <h:body>
+  	<h1>Ejercicio 4</h1>
+  	<h:form>
+	  	<p:remoteCommand name="anadirCampo" update="panelCampos"/>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>  	
+
+	  	<p:outputLabel for="selectorCampos" value="Selector de campos:"/>
+	  	<p:spacer height="2px" width="100%"/>
+	  	
+	  	<p:selectManyMenu id="selectorCampos" value="#{ejercicio4.camposSeleccionados}"
+			var="campo" filter="true" filterMatchMode="contains" showCheckbox="true"
+			onclick="anadirCampo()">
+			<f:selectItems value="#{ejercicio4.campos}"/>
+			
+			<p:column>
+                <h:outputText value="#{campo}" />
+            </p:column>
+        </p:selectManyMenu>
+        
+        <p:spacer height="20px" width="100%"/>
+        
+        <p:commandButton id="cargarCampos" value="Cargar todos los Campos" actionListener="#{ejercicio4.cargarTodosLosCampos}" update="panelCampos selectorCampos"/>
+        <p:commandButton id="limpiarCampo" value="Limpiar Campos" update="panelCampos selectorCampos" actionListener="#{ejercicio4.limpiarCampos}"/>
+        
+        <p:spacer height="20px" width="100%"/>
+        
+        <p:panel id="panelCampos">
+        	<p:outputLabel for="nombre" value="Nombre" rendered="#{ejercicio4.mostrarNombre()}"/>
+		  	<p:spacer height="2px" width="100%"/>
+		  	<p:inputText id="nombre" value="#{ejercicio4.nombre}" rendered="#{ejercicio4.mostrarNombre()}"/>
+		  	
+		  	<p:spacer height="10px" width="100%"/>
+		  	<p:outputLabel for="apellido1" value="Apellido 1" rendered="#{ejercicio4.mostrarApellido1()}"/>
+		  	<p:spacer height="2px" width="100%"/>
+		  	<p:inputText id="apellido1" value="#{ejercicio4.apellido1}" rendered="#{ejercicio4.mostrarApellido1()}"/>
+		  	
+		  	<p:spacer height="10px" width="100%"/>
+		  	<p:outputLabel for="apellido2" value="Apellido 2" rendered="#{ejercicio4.mostrarApellido2()}"/>
+		  	<p:spacer height="2px" width="100%"/>
+		  	<p:inputText id="apellido2" value="#{ejercicio4.apellido2}" rendered="#{ejercicio4.mostrarApellido2()}"/>
+		  	
+		  	
+		  	<p:spacer height="10px" width="100%"/>
+		  	<p:outputLabel for="edad" value="Edad" rendered="#{ejercicio4.mostrarEdad()}"/>
+		  	<p:spacer height="2px" width="100%"/>
+		  	<p:inputNumber id="edad" value="#{ejercicio4.edad}" minValue="0" decimalPlaces="0" rendered="#{ejercicio4.mostrarEdad()}"/>
+		  	
+			<p:spacer height="10px" width="100%"/>
+	  		<p:signature style="width:400px;height:200px" widgetVar="sig" value="#{ejercicio4.firma}"
+	  			guideline="true" rendered="#{ejercicio4.mostrarFirma()}"/>
+			
+			<p:spacer height="10px" width="100%"/>
+			<p:commandButton value="validar" actionListener="#{ejercicio4.validarFormulario}" rendered="#{not empty ejercicio4.camposSeleccionados}"/>
+        </p:panel>        
+  	</h:form>
+  </h:body>
+</html>
