@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+  	<title>Ejercicio 3</title>
+  	</h:head>
+	
+  <h:body>
+  	<h1>Ejercicio 3</h1>
+  	<h:form>
+	  	<p:remoteCommand name="anadirCampo" update="panelComponentes"/>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>  	
+
+	  	<p:outputLabel for="selectorComponente" value="Selector de componentes:"/>
+	  	<p:spacer height="2px" width="100%"/>
+	  	
+	  	<p:selectManyMenu id="selectorComponente" value="#{ejercicio3.componentesSeleccionados}"
+			var="componente" filter="true" filterMatchMode="contains" showCheckbox="true"
+			onclick="anadirCampo()">
+			<f:selectItems value="#{ejercicio3.componentes}"/>
+			
+			<p:column>
+                <h:outputText value="#{componente}" />
+            </p:column>
+        </p:selectManyMenu>
+        
+        <p:spacer height="20px" width="100%"/>
+        
+        <p:commandButton id="cargarComponentes" value="Cargar Componentes" update="panelComponentes"/>
+        <p:commandButton id="limpiarComponentes" value="Limpiar Componentes" update="panelComponentes selectorComponente" actionListener="#{ejercicio3.limpiarComponentes}"/>
+        
+        <p:spacer height="20px" width="100%"/>
+        
+        <p:panel id="panelComponentes">
+        	<p:dataTable id="products" var="product" value="#{ejercicio3.products}" rowKey="#{product.id}"
+        		rendered="#{ejercicio3.mostrarComponente('Datatable')}">
+	            <p:column headerText="Code">
+	                <h:outputText value="#{product.code}" />
+	            </p:column>
+	            <p:column headerText="Name">
+	                <h:outputText value="#{product.name}" />
+	            </p:column>
+	            <p:column headerText="Category">
+	                <h:outputText value="#{product.category}" />
+	            </p:column>
+	            <p:column headerText="Quantity">
+	                <h:outputText value="#{product.quantity}" />
+	            </p:column>
+        	</p:dataTable>
+        	
+        	<p:poll interval="1" listener="#{ejercicio3.incrementarKnob()}" update="knob" rendered="#{ejercicio3.mostrarComponente('Knob')}"/>
+        	<p:knob id="knob" value="#{ejercicio3.campoKnob}" rendered="#{ejercicio3.mostrarComponente('Knob')}"/>
+        	
+        	<p:selectOneRadio id="city" value="#{ejercicio3.ciudad}" layout="grid" columns="3" 
+        		styleClass="grid-radio"	rendered="#{ejercicio3.mostrarComponente('Radio')}">
+	           <f:selectItems value="#{ejercicio3.ciudades}" var="ciudad" itemLabel="#{ciudad}" itemValue="#{ciudad}"/>
+        	</p:selectOneRadio>
+        	
+        	<p:datePicker id="datepicker" value="#{ejercicio3.fecha}" rendered="#{ejercicio3.mostrarComponente('Datepicker')}"/>
+        </p:panel>        
+  	</h:form>
+  </h:body>
+</html>

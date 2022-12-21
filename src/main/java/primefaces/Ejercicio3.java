@@ -8,11 +8,9 @@ import java.util.Objects;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import primefaces.utilidades.StringUtils;
-
 @ViewScoped
 @ManagedBean
-public class Ejercicio2 {
+public class Ejercicio3 {
 
 	private static final String DATATABLE = "Datatable";
 	
@@ -24,7 +22,7 @@ public class Ejercicio2 {
 	
 	private final List<String> componentes = Arrays.asList(DATATABLE, KNOB, RADIO, DATEPICKER);
 	
-	private String componenteSeleccionado;
+	private List<String> componentesSeleccionados;
 	
 	private Integer campoKnob;
 	
@@ -56,14 +54,6 @@ public class Ejercicio2 {
 		this.campoKnob = campoKnob;
 	}
 
-	public String getComponenteSeleccionado() {
-		return componenteSeleccionado;
-	}
-
-	public void setComponenteSeleccionado(String componenteSeleccionado) {
-		this.componenteSeleccionado = componenteSeleccionado;
-	}
-
 	public List<String> getComponentes() {
 		return componentes;
 	}
@@ -79,15 +69,29 @@ public class Ejercicio2 {
 		return Arrays.asList("Sevilla", "Madrid", "Barcelona");
 	}
 	
-	public Boolean mostrarComponente(String componente) {
-		return !StringUtils.isEmpty(this.componenteSeleccionado) && this.componenteSeleccionado.equals(componente);
+	public List<String> getComponentesSeleccionados() {
+		return componentesSeleccionados;
 	}
 
+	public void setComponentesSeleccionados(List<String> componentesSeleccionados) {
+		this.componentesSeleccionados = componentesSeleccionados;
+	}
+	
+	public Boolean mostrarComponente(String componente) {
+		return Objects.nonNull(this.componentesSeleccionados) && this.componentesSeleccionados.contains(componente);
+	}
+	
 	public void incrementarKnob() {
 		if (Objects.isNull(this.campoKnob)) {
 			this.campoKnob=0;
 		} else {
 			this.campoKnob++;
+		}
+	}
+	
+	public void limpiarComponentes() {
+		if (Objects.nonNull(this.componentesSeleccionados)) {
+			this.componentesSeleccionados.clear();
 		}
 	}
 }
