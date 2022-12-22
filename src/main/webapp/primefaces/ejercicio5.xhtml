@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ac="http://java.sun.com/jsf/composite/components">
+    <h:head>
+  	<title>Ejercicio 5</title>
+  	</h:head>
+	
+  <h:body>
+  	<h1>Ejercicio 5</h1>
+  	<h:form id="formulario">
+  		<ac:autocompletado texto="pruebas"/>
+	  	<p:autoComplete id="acSimple" value="#{ejercicio5.pais}"
+            completeMethod="#{ejercicio5.buscarPais}" converter="conversorPais" 
+            var="pais" scrollHeight="250" itemLabel="#{pais.nombre}" itemValue="#{pais.nombre}"/>
+            
+        <p:commandButton value="mostrar más" type="submit" onclick="PF('modalDatosAutocompletado').show()" update="formulario:acSimple"/>
+  	</h:form>
+  	
+  	<p:dialog header="Paises" modal="true" widgetVar="modalDatosAutocompletado" minHeight="40" width="350" showEffect="fade">
+  		<h:form id="formModal">
+		    <p:dataTable id="paises" var="pais" value="#{ejercicio5.paises}" draggableColumns="true" 
+		    	selection="#{ejercicio5.pais}" selectionMode="single" emptyMessage="No se encontraron resultados"
+		    	rowKey="#{pais.id}" paginator="true" paginatorPosition="bottom" rows="5"
+		    	rowsPerPageTemplate="5, 10">
+		    	
+		    	<f:facet name="header">
+			    	<p:commandButton id="toggler" type="button" value="Columnas"/>
+	                <p:columnToggler datasource="paises" trigger="toggler">
+	                     <p:ajax />
+	                 </p:columnToggler>
+		    	</f:facet>
+		    	
+	            <p:column headerText="Id" sortBy="#{pais.id}" filterBy="#{pais.id}" filterMatchMode="contains">
+	                <h:outputText value="#{pais.id}" />
+	            </p:column>
+	            
+	            <p:column headerText="Nombre" sortBy="#{pais.nombre}" filterBy="#{pais.nombre}" filterMatchMode="contains">
+	                <h:outputText value="#{pais.nombre}" />
+	            </p:column>
+	            
+		    	<p:ajax event="rowSelect" listener="#{ejercicio5.paisSeleccionado}" process="formModal" oncomplete="PF('modalDatosAutocompletado').hide();" update="formulario:acSimple"/>
+	        </p:dataTable>
+        </h:form>
+	</p:dialog>
+  </h:body>
+</html>
